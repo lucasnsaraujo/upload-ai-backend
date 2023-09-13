@@ -1,0 +1,39 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=Boundary
+
+--Boundary
+Content-Disposition: form-data; name="file"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example.mp3
+--Boundary--
+
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/5a056265-041f-4388-8d34-0922711bc7a8/transcription
+Content-Type: application/json
+
+{
+    "prompt": "programação, programador"
+}
+
+
+###
+
+# @name gemerate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+    "videoId": "5a056265-041f-4388-8d34-0922711bc7a8",
+    "temperature": 0.5,
+    "template": "Gere um resumo sucinto da transcrição do vídeo informada a seguir: '''{transcription}'''"
+}
